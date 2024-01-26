@@ -27,6 +27,10 @@
       apt:
         deb: "{{ pvpn__deb_package_download.dest }}"
 
+    - name: "Proton VPN | install apt package."
+      apt:
+        name: "{{ pvpn__package_name }}"
+
     - name: "Proton VPN | remove temp directory."
       ansible.builtin.file:
         path: "{{ pvpn__tempfile.path }}"
