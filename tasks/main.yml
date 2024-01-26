@@ -16,7 +16,7 @@
       ansible.builtin.get_url:
         url: "{{ pvpn__deb_package_url }}"
         dest: "{{ pvpn__tempfile.path }}"
-        checksum: "{{ pvpn__deb_package_sha256_checksum }}"
+        checksum: "{{ pvpn__deb_package_sha256checksum }}"
       register: "pvpn__deb_package_get_url"
 
     - name: "Proton VPN | debug deb package dest."
