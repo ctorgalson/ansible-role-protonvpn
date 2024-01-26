@@ -21,11 +21,11 @@
 
     - name: "Proton VPN | debug deb package dest."
       debug:
-        var: "pvpn__deb_package_get_url"
+        var: "pvpn__deb_package_download"
 
     - name: "Proton VPN | install deb package."
       apt:
-        deb: "{{ pvpn__deb_package_download.path }}"
+        deb: "{{ pvpn__deb_package_download.dest }}"
 
     - name: "Proton VPN | remove temp directory."
       ansible.builtin.file:
