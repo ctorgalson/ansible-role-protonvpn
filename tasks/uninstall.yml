@@ -2,6 +2,24 @@
 # uninstall tasks file for ansible-role-protonvpn
 
 # Uninstall
+# sudo apt autoremove "protonvpn*" proton-vpn-gnome-desktop
 #
 # Check for existing connections after uninstall.
 # nmcli --terse --fields name connection show --active
+
+- name: "Proton VPN | find any remaining Proton VPN connections"
+  shell: "nmcli --terse --fields name connection show --active | grep 'pvpn'"
+  register: "pvpn__active_connections"
+
+- name: "Proton VPN | terminate any remaining Proton VPN connections"
+  command: "nmcli connection delete {{ connection }}"
+  loop: "{{ pvpn__active_connections.stdout_lines }}"
+  loop_control:
+    loop_var: "connection"
+
+- name: "Proton VPN | uninstall apt package."
+  apt:
+    name:
+      - "protonvpn*"
+      - "{{ pvpn__package_name }}"
+    state: absent"
