@@ -2,3 +2,4 @@
 # vars file for ansible-role-protonvpn
 
 pvpn__package_name: "proton-vpn-gnome-desktop"
+pvpn__binary_name: "protonvpn-app"
