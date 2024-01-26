@@ -1,2 +1,37 @@
 ---
 # tasks file for ansible-role-protonvpn
+#
+# @see https://protonvpn.com/support/official-ubuntu-vpn-setup/
+# @see https://protonvpn.com/support/official-linux-vpn-debian/
+
+- name: "Proton VPN | download and verify deb package."
+  block:
+    - name: "Proton VPN | create a temp directory."
+      ansible.builtin.tempfile:
+        state: "directory"
+        suffix: "__proton_vpn"
+      register: "pvpn__tempfile"
+
+    - name: "Proton VPN | download deb package."
+      ansible.builtin.get_url:
+        url: "{{ pvpn__deb_package_url }}"
+        dest: "{{ pvpn__tempfile.path }}"
+        checksum: "{{ pvpn__deb_package_sha256_checksum }}"
+      register: "pvpn__deb_package_get_url"
+
+    - name: "Proton VPN | debug deb package dest."
+      debug:
+        var: "pvpn__deb_package_get_url"
+
+    #- name: "Proton VPN | install deb package."
+
+    - name: "Proton VPN | remove temp directory."
+      ansible.builtin.file:
+        path: "{{ pvpn__tempfile.path }}"
+        state: "absent"
+      when: "pvpn__tempfile.path is defined"
+
+# Uninstall
+#
+# Check for existing connections after uninstall.
+# nmcli --terse --fields name connection show --active
