@@ -1,0 +1,29 @@
+---
+# install tasks file for ansible-role-protonvpn
+
+- name: "Proton VPN | create a temp directory."
+  ansible.builtin.tempfile:
+    state: "directory"
+    suffix: ".proton_vpn"
+  register: "pvpn__tempfile"
+
+- name: "Proton VPN | download deb package."
+  ansible.builtin.get_url:
+    url: "{{ pvpn__deb_package_url }}"
+    dest: "{{ pvpn__tempfile.path }}"
+    checksum: "{{ pvpn__deb_package_sha256checksum }}"
+  register: "pvpn__deb_package_download"
+
+- name: "Proton VPN | install deb package."
+  apt:
+    deb: "{{ pvpn__deb_package_download.dest }}"
+
+- name: "Proton VPN | install apt package."
+  apt:
+    name: "{{ pvpn__package_name }}"
+
+- name: "Proton VPN | remove temp directory."
+  ansible.builtin.file:
+    path: "{{ pvpn__tempfile.path }}"
+    state: "absent"
+  when: "pvpn__tempfile.path is defined"

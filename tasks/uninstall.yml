@@ -1,0 +1,7 @@
+---
+# uninstall tasks file for ansible-role-protonvpn
+
+# Uninstall
+#
+# Check for existing connections after uninstall.
+# nmcli --terse --fields name connection show --active
