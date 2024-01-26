@@ -5,7 +5,7 @@
 # @see https://protonvpn.com/support/official-linux-vpn-debian/
 
 - name: "Proton VPN | check if app is already installed."
-  ansible.builtin.command: "command -v {{ pvpn__binary_name }}"
+  ansible.builtin.shell: "command -v {{ pvpn__binary_name }}"
   register: "pvpn__binary_exists"
 
 - name: "Proton VPN | debug binary existence."
