@@ -22,7 +22,7 @@
     name:
       - "protonvpn*"
       - "{{ pvpn__package_name }}"
-    state: absent"
+    state: "absent"
 
 - name: "Proton VPN | remove apt repository."
   ansible.builtin.apt_repository:
