@@ -17,7 +17,7 @@
 
 - name: "Proton VPN | add apt repo."
   ansible.builtin.apt_repository:
-    repo: "deb [signed-by={{ pvpn__apt_repository_key_path }}] {{ pvpn__apt_repository_url }}  {{ pvpn__apt_repository_codename }} {{ pvpn__apt_repository_component }}"
+    repo: "deb {{ pvpn__apt_repository_url }}  {{ pvpn__apt_repository_codename }} {{ pvpn__apt_repository_component }}"
     state: "present"
     filename: "{{ pvpn__apt_repository_filename }}"
 
