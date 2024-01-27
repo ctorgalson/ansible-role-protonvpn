@@ -1,5 +1,10 @@
 ---
 # vars file for ansible-role-protonvpn
 
+pvpn__apt_repository_url: "https://repo.protonvpn.com/debian"
+pvpn__apt_repository_codename: "stable"
+pvpn__apt_repository_component: "main"
+pvpn__apt_repository_filename: "protonvpn-{{ pvpn__apt_repository_codename }}"
+pvpn__apt_repository_public_key_filename: "public_key.asc"
 pvpn__package_name: "proton-vpn-gnome-desktop"
 pvpn__binary_name: "protonvpn-app"

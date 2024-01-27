@@ -23,3 +23,13 @@
       - "protonvpn*"
       - "{{ pvpn__package_name }}"
     state: absent"
+
+- name: "Proton VPN | remove apt repository."
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by={{ pvpn__apt_repository_key_path }}] {{ pvpn__apt_repository_url }}  {{ pvpn__apt_repository_codename }} {{ pvpn__apt_repository_component }}"
+    state: "absent"
+
+- name: "Proton VPN | remove repo public key."
+  file:
+    path: "{{ pvpn__apt_repository_key_path }}"
+    state: "absent"

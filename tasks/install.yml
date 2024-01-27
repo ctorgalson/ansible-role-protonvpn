@@ -1,29 +1,26 @@
 ---
 # install tasks file for ansible-role-protonvpn
 
-- name: "Proton VPN | create a temp directory."
-  ansible.builtin.tempfile:
-    state: "directory"
-    suffix: ".proton_vpn"
-  register: "pvpn__tempfile"
+- name: "Proton VPN | download and save repo public key."
+  block:
+    - name: "Proton VPN | ensure public key directory exists."
+      file:
+        path: "{{ pvpn__apt_repository_key_path|dirname }}"
+        recurse: true
+        state: "directory"
 
-- name: "Proton VPN | download deb package."
-  ansible.builtin.get_url:
-    url: "{{ pvpn__deb_package_url }}"
-    dest: "{{ pvpn__tempfile.path }}"
-    checksum: "{{ pvpn__deb_package_sha256checksum }}"
-  register: "pvpn__deb_package_download"
+    - name: "Proton VPN | download repo public key."
+      ansible.builtin.get_url:
+        url: "{{ pvpn__apt_repository_url }}/{{ pvpn__apt_repository_public_key_filename }}"
+        dest: "{{ pvpn__apt_repository_key_path }}"
+        checksum: "sha256:{{ pvpn__apt_repository_public_key_sha256sum }}"
 
-- name: "Proton VPN | install deb package."
-  apt:
-    deb: "{{ pvpn__deb_package_download.dest }}"
+- name: "Proton VPN | add apt repo."
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by={{ pvpn__apt_repository_key_path }}] {{ pvpn__apt_repository_url }}  {{ pvpn__apt_repository_codename }} {{ pvpn__apt_repository_component }}"
+    state: "present"
+    filename: "{{ pvpn__apt_repository_filename }}"
 
 - name: "Proton VPN | install apt package."
-  apt:
+  ansible.builtin.apt:
     name: "{{ pvpn__package_name }}"
-
-- name: "Proton VPN | remove temp directory."
-  ansible.builtin.file:
-    path: "{{ pvpn__tempfile.path }}"
-    state: "absent"
-  when: "pvpn__tempfile.path is defined"

@@ -1,6 +1,8 @@
 ---
 # defaults file for ansible-role-protonvpn
+#
+# @see https://wiki.debian.org/SourcesList
 
 pvpn__state: "present"
-pvpn__deb_package_url: "https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.3-2_all.deb"
-pvpn__deb_package_sha256checksum: "sha256:c68a0b8dad58ab75080eed7cb989e5634fc88fca051703139c025352a6ee19ad"
+pvpn__apt_repository_key_path: "/etc/apt/keyrings/{{ pvpn__apt_repository_filename }}.asc"
+pvpn__apt_repository_public_key_sha256sum: "34537f800dee7fec86e91159b377b88a0e3c182f84ca5b9cb8c7c5434ba5a0d9"

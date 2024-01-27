@@ -4,21 +4,14 @@
 # @see https://protonvpn.com/support/official-ubuntu-vpn-setup/
 # @see https://protonvpn.com/support/official-linux-vpn-debian/
 
-- name: "Proton VPN | check if app is already installed."
-  ansible.builtin.shell: "command -v {{ pvpn__binary_name }}"
-  register: "pvpn__binary_exists"
-  changed_when: false
-
 - name: "Proton VPN | download and install Proton VPN."
   include_tasks:
     file: "install.yml"
   when:
-    - "pvpn__binary_exists.rc != 0"
     - "pvpn__state == 'present'"
 
 - name: "Proton VPN | remove Proton VPN and existing connections."
   include_tasks:
     file: "uninstall.yml"
   when:
-    - "pvpn__binary_exists.rc == 0"
     - "pvpn__state == 'absent'"
