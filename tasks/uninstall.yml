@@ -8,12 +8,12 @@
 # nmcli --terse --fields name connection show --active
 
 - name: "Proton VPN | find any remaining Proton VPN connections"
-  shell: "nmcli --terse --fields name connection show --active | grep 'pvpn'"
+  command: "nmcli --terse --fields name connection show --active"
   register: "pvpn__active_connections"
 
 - name: "Proton VPN | terminate any remaining Proton VPN connections"
   command: "nmcli connection delete {{ connection }}"
-  loop: "{{ pvpn__active_connections.stdout_lines }}"
+  loop: "{{ pvpn__active_connections.stdout_lines|regex_findall('^pvpn') }}"
   loop_control:
     loop_var: "connection"
 
