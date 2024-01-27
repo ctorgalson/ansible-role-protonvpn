@@ -11,7 +11,7 @@
 
     - name: "Proton VPN | download repo public key."
       ansible.builtin.get_url:
-        url: "{{ pvpn__apt_repository_gpg_url }}"
+        url: "{{ pvpn__apt_repository_url }}/{{ pvpn__apt_repository_public_key_filename }}"
         dest: "{{ pvpn__apt_repository_key_path }}"
         checksum: "sha256:{{ pvpn__apt_repository_public_key_sha256sum }}"
 
